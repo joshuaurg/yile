@@ -1,0 +1,6 @@
+target/
+.DS_Store
+.gitignore.swp
+.idea/
+*.class
+log/
