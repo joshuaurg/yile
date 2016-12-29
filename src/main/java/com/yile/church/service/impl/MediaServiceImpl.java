@@ -1,6 +1,9 @@
 package com.yile.church.service.impl;
 
+import com.yile.church.mapper.MediaModelMapper;
+import com.yile.church.model.MediaModel;
 import com.yile.church.service.MediaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,4 +11,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MediaServiceImpl implements MediaService {
+
+    @Autowired
+    private MediaModelMapper mediaModelMapper;
+
+    public void insert(MediaModel media){
+        mediaModelMapper.insert(media);
+    }
+
 }
