@@ -6,13 +6,38 @@ package com.yile.church.common.model;
  */
 public class MediaUploaderParam {
 
-    private Integer channel;
+    private byte[] data;
 
-    public Integer getChannel() {
+    /**
+     * 1:video
+     * 2:audio
+     * 3:photo
+     */
+    private String channel;
+
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public String getChannel() {
         return channel;
     }
 
-    public void setChannel(Integer channel) {
+    public void setChannel(String channel) {
         this.channel = channel;
     }
 }

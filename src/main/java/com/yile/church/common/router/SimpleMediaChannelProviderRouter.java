@@ -13,11 +13,11 @@ public class SimpleMediaChannelProviderRouter implements MediaChannelProviderRou
     private Map<String, MediaChannelProvider> providers;
 
     @Override
-    public MediaChannelProvider route(MediaUploaderParam msg) {
-        if (msg == null) {
+    public MediaChannelProvider route(MediaUploaderParam param) {
+        if (param == null) {
             throw new IllegalArgumentException("msg is null.");
         }
-        return providers.get(msg.getChannel());
+        return providers.get(param.getChannel());
     }
 
     public void setProviders(Map<String, MediaChannelProvider> providers) {

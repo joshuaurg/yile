@@ -10,7 +10,11 @@
 
 
     <bean id="qiniuChannelProvider" class="com.yile.church.common.provider.QiniuChannelProvider">
-
+        <property name="AK" value="${qiniu.security.ak}" />
+        <property name="SK" value="${qiniu.security.sk}" />
+        <property name="videoBucketName" value="${qiniu.bucket.video}" />
+        <property name="audioBucketName" value="${qiniu.bucket.audio}" />
+        <property name="photoBucketName" value="${qiniu.bucket.photo}" />
     </bean>
 
     <bean id="simpleMediaChannelProviderRouter" class="com.yile.church.common.router.SimpleMediaChannelProviderRouter">
@@ -19,6 +23,10 @@
                 <entry key="1" value-ref="qiniuChannelProvider" />
             </map>
         </property>
+    </bean>
+
+    <bean id="mediaEngine" class="com.yile.church.common.engine.MediaEngine">
+        <property name="mediaChannelProviderRouter" ref="simpleMediaChannelProviderRouter"/>
     </bean>
 
 </beans>
