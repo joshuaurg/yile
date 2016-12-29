@@ -7,11 +7,14 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
+import com.qiniu.util.UrlSafeBase64;
 import com.yile.church.common.model.ApiResult;
 import com.yile.church.common.model.MediaUploaderParam;
 import com.yile.church.model.MediaModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +23,7 @@ import java.util.Map;
  * @author : hema
  * @date : 2016年12月29日 下午4:15
  */
-public class QiniuChannelProvider implements MediaChannelProvider {
+public class QiniuChannelProvider implements MediaChannelProvider ,InitializingBean {
 
     private static final Logger logger = LoggerFactory.getLogger(QiniuChannelProvider.class);
 
@@ -33,11 +36,27 @@ public class QiniuChannelProvider implements MediaChannelProvider {
     private static  Map<String,String> bucketMap = new HashMap<String,String>();
 
     //密钥配置
-    private Auth auth = Auth.create(ak, sk);
+    private Auth auth = null;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        auth = Auth.create(ak, sk);
+    }
 
     //简单上传，使用默认策略，只需要设置上传的空间名就可以了
-    public String getUpToken(String bucketName){
-        return auth.uploadToken(bucketName);
+    public String getUpToken(String bucketName,String key){
+        if(bucketName.equals(photoBucketName)){
+            return auth.uploadToken(bucketName);
+        }else{
+            String fops = "avthumb/mp4";
+            String pipeline = "media-convertor";
+
+            //可以对转码后的文件进行使用saveas参数自定义命名，当然也可以不指定文件会默认命名并保存在当前空间。
+            String urlbase64 = UrlSafeBase64.encodeToString(bucketName+":"+key);
+            String pfops = fops + "|saveas/"+ urlbase64;
+            return auth.uploadToken(bucketName,key,3600,
+                    new StringMap().putNotEmpty("persistentOps", pfops).putNotEmpty("persistentPipeline", pipeline), true);
+        }
     }
 
     @Override
@@ -49,9 +68,17 @@ public class QiniuChannelProvider implements MediaChannelProvider {
             Configuration c = new Configuration(z);
             UploadManager uploadManager = new UploadManager(c);
             //调用put方法上传，这里指定的key和上传策略中的key要一致
-            Response res = uploadManager.put(param.getData(), System.currentTimeMillis()+"", getUpToken(bucketMap.get(param.getChannel())));
-            JSONObject resJson = JSONObject.parseObject(res.bodyString());
-
+            String fileName = System.currentTimeMillis()+"";
+            Response res = uploadManager.put(param.getData(), fileName, getUpToken(bucketName(param.getType()),fileName));
+            if(res.statusCode == 200){
+                result.setCode("0001");
+                result.setSuccess(true);
+                result.setMsg("qiniu upload success.");
+            }else{
+                result.setCode("0000");
+                result.setSuccess(false);
+                result.setMsg("qiniu upload error.");
+            }
         } catch (QiniuException e) {
             logger.error("qiniu upload error.",e);
 
@@ -65,6 +92,19 @@ public class QiniuChannelProvider implements MediaChannelProvider {
     @Override
     public MediaModel read(MediaUploaderParam param) {
 
+        return null;
+    }
+
+    private String bucketName(String contentType){
+        if(contentType.contains("image")){
+            return photoBucketName;
+        }
+        if(contentType.contains("audio")){
+            return audioBucketName;
+        }
+        if(contentType.contains("video")){
+            return videoBucketName;
+        }
         return null;
     }
 

@@ -16,9 +16,12 @@ public class MediaEngine {
 
     private MediaChannelProviderRouter mediaChannelProviderRouter;
 
-    public ApiResult upload(MultipartFile file) {
+    public ApiResult upload(MultipartFile file) throws Exception{
         MediaUploaderParam param = new MediaUploaderParam();
-        param.setChannel("1");
+        String contentType = file.getContentType();
+        param.setChannel(MediaUploaderParam.UPLOAD_CHANNEL_QINIU);
+        param.setType(contentType);
+        param.setData(file.getBytes());
         MediaChannelProvider mediaChannelProvider = mediaChannelProviderRouter.route(param);
         ApiResult result = mediaChannelProvider.write(param);
         return result;

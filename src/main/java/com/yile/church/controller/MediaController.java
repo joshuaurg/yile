@@ -30,7 +30,8 @@ public class MediaController {
      * @return
      */
     @RequestMapping(value = "upload")
-    public ApiResult upload(HttpServletRequest request,@RequestParam("file") MultipartFile file){
+    public ApiResult upload(HttpServletRequest request,@RequestParam("file") MultipartFile file) throws Exception{
+
         ApiResult result = mediaEngine.upload(file);
         return result;
     }

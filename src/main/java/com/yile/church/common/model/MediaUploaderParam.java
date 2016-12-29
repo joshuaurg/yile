@@ -6,22 +6,22 @@ package com.yile.church.common.model;
  */
 public class MediaUploaderParam {
 
+    public static final String UPLOAD_CHANNEL_QINIU = "1";
+
+    // 媒体字节数组
     private byte[] data;
 
-    /**
-     * 1:video
-     * 2:audio
-     * 3:photo
-     */
+    // 上传通道
     private String channel;
 
-    private Integer type;
+    // 媒体类型
+    private String type;
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 
