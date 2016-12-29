@@ -150,7 +150,7 @@
   </dependencies>
 
   <build>
-      <finalName>${project.artifactId}_${project.version}_${maven.build.timestamp}</finalName>
+      <finalName>yile</finalName>
       <filters>
           <filter>application.properties</filter>
       </filters>
@@ -172,6 +172,4 @@
           </plugin>
       </plugins>
   </build>
-
-
 </project>

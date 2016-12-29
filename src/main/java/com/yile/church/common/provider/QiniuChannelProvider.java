@@ -24,21 +24,16 @@ public class QiniuChannelProvider implements MediaChannelProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(QiniuChannelProvider.class);
 
-    private String AK;
-    private String SK;
-
-    private static String videoBucketName;
-    private static String audioBucketName;
-    private static String photoBucketName;
+    private String ak;
+    private String sk;
+    private String videoBucketName;
+    private String audioBucketName;
+    private String photoBucketName;
 
     private static  Map<String,String> bucketMap = new HashMap<String,String>();
-    static {
-        bucketMap.put("1",videoBucketName);
-        bucketMap.put("2",audioBucketName);
-        bucketMap.put("3",photoBucketName);
-    }
+
     //密钥配置
-    private Auth auth = Auth.create(AK, SK);
+    private Auth auth = Auth.create(ak, sk);
 
     //简单上传，使用默认策略，只需要设置上传的空间名就可以了
     public String getUpToken(String bucketName){
@@ -73,20 +68,20 @@ public class QiniuChannelProvider implements MediaChannelProvider {
         return null;
     }
 
-    public String getAK() {
-        return AK;
+    public String getAk() {
+        return ak;
     }
 
-    public void setAK(String AK) {
-        this.AK = AK;
+    public void setAk(String ak) {
+        this.ak = ak;
     }
 
-    public String getSK() {
-        return SK;
+    public String getSk() {
+        return sk;
     }
 
-    public void setSK(String SK) {
-        this.SK = SK;
+    public void setSk(String sk) {
+        this.sk = sk;
     }
 
     public String getVideoBucketName() {
@@ -111,5 +106,13 @@ public class QiniuChannelProvider implements MediaChannelProvider {
 
     public void setPhotoBucketName(String photoBucketName) {
         this.photoBucketName = photoBucketName;
+    }
+
+    public static Map<String, String> getBucketMap() {
+        return bucketMap;
+    }
+
+    public static void setBucketMap(Map<String, String> bucketMap) {
+        QiniuChannelProvider.bucketMap = bucketMap;
     }
 }
