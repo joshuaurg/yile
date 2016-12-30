@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yile.church.mapper.MediaModelMapper" >
   <resultMap id="BaseResultMap" type="com.yile.church.model.MediaModel" >
-    <id column="id" property="id" jdbcType="LONG" />
+    <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="url" property="url" jdbcType="VARCHAR" />
@@ -72,7 +72,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=LONG},
+        #{id},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -134,7 +134,7 @@
         delFlag = #{delFlag,jdbcType=TINYINT},
       </if>
     </set>
-    where id = #{id,jdbcType=LONG}
+    where id = #{id}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yile.church.model.MediaModel" >
     update media
@@ -147,6 +147,6 @@
       createTime = #{createTime,jdbcType=TIMESTAMP},
       updateTime = #{updateTime,jdbcType=TIMESTAMP},
       delFlag = #{delFlag,jdbcType=TINYINT}
-    where id = #{id,jdbcType=LONG}
+    where id = #{id}
   </update>
 </mapper>

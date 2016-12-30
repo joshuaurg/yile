@@ -6,7 +6,10 @@ import com.yile.church.model.MediaAlbumModel;
 import com.yile.church.model.MediaModel;
 import com.yile.church.service.AlbumService;
 import com.yile.church.service.MediaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@ import java.util.Date;
  * @author : hema
  * @date : 2016年12月13日 下午5:51
  */
+@Api(description = "合集控制器")
 @Controller
 @RequestMapping(value = "/album")
 public class AlbumController {
@@ -28,6 +32,7 @@ public class AlbumController {
     private MediaService mediaService;
 
     // 创建合集(或更新合集)
+    @ApiOperation(value = "创建合集(或更新合集)",notes = "创建合集(或更新合集)",httpMethod = "POST",produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "save")
     public ApiResult insertOrUpdate(AlbumModel album){
         ApiResult apiResult = new ApiResult();
@@ -45,6 +50,7 @@ public class AlbumController {
     }
 
     // 媒体资源加入合集
+    @ApiOperation(value = "媒体资源加入合集",notes = "媒体资源加入合集",httpMethod = "POST",produces = MediaType.APPLICATION_JSON_VALUE)
     @RequestMapping(value = "collect")
     public ApiResult collect(@RequestParam() String albumId,@RequestParam("mediaId[]") String[] mediaIds){
         ApiResult apiResult = new ApiResult();
