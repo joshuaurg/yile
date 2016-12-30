@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author : hema
  * @date : 2016年12月13日 下午5:51
  */
-@Api(value = "媒体资源控制器")
+@Api(description = "媒体资源控制器")
 @RestController
 @RequestMapping(value = "/media")
 public class MediaController {
