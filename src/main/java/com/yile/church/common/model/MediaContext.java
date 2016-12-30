@@ -19,7 +19,7 @@ public class MediaContext {
     private String channel;
 
     // 字节长度
-    private Long size;
+    private Integer size;
 
     // 媒体类型
     private String type;
@@ -87,11 +87,11 @@ public class MediaContext {
         this.channel = channel;
     }
 
-    public Long getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 

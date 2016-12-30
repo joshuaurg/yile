@@ -72,6 +72,8 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
             Response res = uploadManager.put(mediaContext.getData(), fileName, getUpToken(bucketName(mediaContext.getType()),fileName));
             if(res.statusCode == 200){
                 mediaContext.setSuccess(true);
+                mediaContext.setUrl(fileName);
+                mediaContext.setSize(res.body().length);
                 mediaContext.setFileName(fileName);
             }else{
                 mediaContext.setSuccess(false);

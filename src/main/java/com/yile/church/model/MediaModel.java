@@ -10,7 +10,7 @@ public class MediaModel extends BaseModel implements Serializable{
 
     private String url;
 
-    private Long size;
+    private Integer size;
 
     private Long playTime;
 
@@ -40,11 +40,11 @@ public class MediaModel extends BaseModel implements Serializable{
         this.url = url == null ? null : url.trim();
     }
 
-    public Long getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
