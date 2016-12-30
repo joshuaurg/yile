@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yile.church.mapper.MediaModelMapper" >
   <resultMap id="BaseResultMap" type="com.yile.church.model.MediaModel" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="id" property="id" jdbcType="LONG" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="TINYINT" />
     <result column="url" property="url" jdbcType="VARCHAR" />
@@ -16,11 +16,11 @@
   <sql id="Base_Column_List" >
     id, name, type, url, size, playTime, cover, createTime, updateTime, delFlag
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from media
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from media
@@ -31,7 +31,7 @@
       url, size, playTime, 
       cover, createTime, updateTime, 
       delFlag)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+    values (#{id}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
       #{url,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{playTime,jdbcType=BIGINT}, 
       #{cover,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{delFlag,jdbcType=TINYINT})
@@ -72,7 +72,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=LONG},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -134,7 +134,7 @@
         delFlag = #{delFlag,jdbcType=TINYINT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yile.church.model.MediaModel" >
     update media
@@ -147,6 +147,6 @@
       createTime = #{createTime,jdbcType=TIMESTAMP},
       updateTime = #{updateTime,jdbcType=TIMESTAMP},
       delFlag = #{delFlag,jdbcType=TINYINT}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=LONG}
   </update>
 </mapper>

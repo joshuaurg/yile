@@ -33,4 +33,9 @@ public class MediaServiceImpl implements MediaService {
         mediaModel.setDelFlag(0);
         mediaModelMapper.insert(mediaModel);
     }
+
+    @Override
+    public MediaModel queryMediaById(long id) {
+        return mediaModelMapper.selectByPrimaryKey(id);
+    }
 }

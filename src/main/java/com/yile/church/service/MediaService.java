@@ -9,4 +9,6 @@ import com.yile.church.model.MediaModel;
 public interface MediaService {
 
     public void insert(MediaContext mediaContext);
+
+    MediaModel queryMediaById(long l);
 }

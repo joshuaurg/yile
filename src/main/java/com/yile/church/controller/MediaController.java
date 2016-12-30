@@ -3,15 +3,12 @@ package com.yile.church.controller;
 import com.yile.church.common.engine.MediaEngine;
 import com.yile.church.common.model.ApiResult;
 import com.yile.church.common.model.MediaContext;
-import com.yile.church.model.MediaModel;
 import com.yile.church.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author : hema
@@ -28,11 +25,11 @@ public class MediaController {
     private MediaEngine mediaEngine;
 
     /**
-     * 上传
+     * 上传媒体资源
      * @return
      */
     @RequestMapping(value = "upload")
-    public ApiResult upload(HttpServletRequest request,@RequestParam("file") MultipartFile file) throws Exception{
+    public ApiResult upload(@RequestParam("file") MultipartFile file) throws Exception{
         ApiResult apiResult = new ApiResult();
         MediaContext mediaContext = mediaEngine.upload(file);
         if(mediaContext.isSuccess()){
@@ -45,4 +42,7 @@ public class MediaController {
         }
         return apiResult;
     }
+
+
+
 }

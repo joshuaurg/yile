@@ -9,7 +9,7 @@ public interface MediaModelMapper {
 
     int insertSelective(MediaModel record);
 
-    MediaModel selectByPrimaryKey(Integer id);
+    MediaModel selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(MediaModel record);
 
