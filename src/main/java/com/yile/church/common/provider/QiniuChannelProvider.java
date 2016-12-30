@@ -9,8 +9,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.qiniu.util.StringMap;
 import com.qiniu.util.UrlSafeBase64;
-import com.yile.church.common.model.ApiResult;
-import com.yile.church.common.model.MediaUploaderParam;
+import com.yile.church.common.model.MediaContext;
 import com.yile.church.model.MediaModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,21 +46,22 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
     public String getUpToken(String bucketName,String key){
         if(bucketName.equals(photoBucketName)){
             return auth.uploadToken(bucketName);
-        }else{
-            String fops = "avthumb/mp4";
-            String pipeline = "media-convertor";
-
-            //可以对转码后的文件进行使用saveas参数自定义命名，当然也可以不指定文件会默认命名并保存在当前空间。
-            String urlbase64 = UrlSafeBase64.encodeToString(bucketName+":"+key);
-            String pfops = fops + "|saveas/"+ urlbase64;
-            return auth.uploadToken(bucketName,key,3600,
-                    new StringMap().putNotEmpty("persistentOps", pfops).putNotEmpty("persistentPipeline", pipeline), true);
         }
+        String fops = null;
+        if(bucketName.equals(videoBucketName)){
+            fops = "avthumb/mp4/vb/1.25m";
+        }
+        if(bucketName.equals(audioBucketName)){
+            fops = "avthumb/mp3/ab/192k";
+        }
+        String pipeline = "media-convertor";
+        String urlbase64 = UrlSafeBase64.encodeToString(bucketName+":"+key);
+        String pfops = fops + "|saveas/"+ urlbase64;
+        return auth.uploadToken(bucketName,key,3600,new StringMap().putNotEmpty("persistentOps", pfops).putNotEmpty("persistentPipeline", pipeline), true);
     }
 
     @Override
-    public ApiResult write(MediaUploaderParam param) {
-        ApiResult result = new ApiResult();
+    public void write(MediaContext mediaContext) {
         try {
             //创建上传对象
             Zone z = Zone.autoZone();
@@ -69,40 +69,33 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
             UploadManager uploadManager = new UploadManager(c);
             //调用put方法上传，这里指定的key和上传策略中的key要一致
             String fileName = System.currentTimeMillis()+"";
-            Response res = uploadManager.put(param.getData(), fileName, getUpToken(bucketName(param.getType()),fileName));
+            Response res = uploadManager.put(mediaContext.getData(), fileName, getUpToken(bucketName(mediaContext.getType()),fileName));
             if(res.statusCode == 200){
-                result.setCode("0001");
-                result.setSuccess(true);
-                result.setMsg("qiniu upload success.");
+                mediaContext.setSuccess(true);
+                mediaContext.setFileName(fileName);
             }else{
-                result.setCode("0000");
-                result.setSuccess(false);
-                result.setMsg("qiniu upload error.");
+                mediaContext.setSuccess(false);
             }
         } catch (QiniuException e) {
             logger.error("qiniu upload error.",e);
-
-            result.setCode("0000");
-            result.setSuccess(false);
-            result.setMsg("qiniu upload error.");
+            mediaContext.setSuccess(false);
         }
-        return result;
     }
 
     @Override
-    public MediaModel read(MediaUploaderParam param) {
+    public MediaModel read(MediaContext param) {
 
         return null;
     }
 
     private String bucketName(String contentType){
-        if(contentType.contains("image")){
+        if(contentType.contains(MediaContext.CONTENT_TYPE_IMAGE)){
             return photoBucketName;
         }
-        if(contentType.contains("audio")){
+        if(contentType.contains(MediaContext.CONTENT_TYPE_AUDIO)){
             return audioBucketName;
         }
-        if(contentType.contains("video")){
+        if(contentType.contains(MediaContext.CONTENT_TYPE_VIDEO)){
             return videoBucketName;
         }
         return null;

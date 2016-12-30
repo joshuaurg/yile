@@ -1,6 +1,6 @@
 package com.yile.church.common.router;
 
-import com.yile.church.common.model.MediaUploaderParam;
+import com.yile.church.common.model.MediaContext;
 import com.yile.church.common.provider.MediaChannelProvider;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class SimpleMediaChannelProviderRouter implements MediaChannelProviderRou
     private Map<String, MediaChannelProvider> providers;
 
     @Override
-    public MediaChannelProvider route(MediaUploaderParam param) {
+    public MediaChannelProvider route(MediaContext param) {
         if (param == null) {
             throw new IllegalArgumentException("msg is null.");
         }

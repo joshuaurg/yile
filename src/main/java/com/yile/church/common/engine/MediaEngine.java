@@ -1,7 +1,7 @@
 package com.yile.church.common.engine;
 
 import com.yile.church.common.model.ApiResult;
-import com.yile.church.common.model.MediaUploaderParam;
+import com.yile.church.common.model.MediaContext;
 import com.yile.church.common.provider.MediaChannelProvider;
 import com.yile.church.common.router.MediaChannelProviderRouter;
 import org.springframework.stereotype.Service;
@@ -16,17 +16,16 @@ public class MediaEngine {
 
     private MediaChannelProviderRouter mediaChannelProviderRouter;
 
-    public ApiResult upload(MultipartFile file) throws Exception{
-        MediaUploaderParam param = new MediaUploaderParam();
+    public MediaContext upload(MultipartFile file) throws Exception{
+        MediaContext mediaContext = new MediaContext();
         String contentType = file.getContentType();
-        param.setChannel(MediaUploaderParam.UPLOAD_CHANNEL_QINIU);
-        param.setType(contentType);
-        param.setData(file.getBytes());
-        MediaChannelProvider mediaChannelProvider = mediaChannelProviderRouter.route(param);
-        ApiResult result = mediaChannelProvider.write(param);
-        return result;
+        mediaContext.setChannel(MediaContext.UPLOAD_CHANNEL_QINIU);
+        mediaContext.setType(contentType);
+        mediaContext.setData(file.getBytes());
+        MediaChannelProvider mediaChannelProvider = mediaChannelProviderRouter.route(mediaContext);
+        mediaChannelProvider.write(mediaContext);
+        return mediaContext;
     }
-
 
     public MediaChannelProviderRouter getMediaChannelProviderRouter() {
         return mediaChannelProviderRouter;

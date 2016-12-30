@@ -2,6 +2,8 @@ package com.yile.church.controller;
 
 import com.yile.church.common.engine.MediaEngine;
 import com.yile.church.common.model.ApiResult;
+import com.yile.church.common.model.MediaContext;
+import com.yile.church.model.MediaModel;
 import com.yile.church.service.MediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +33,16 @@ public class MediaController {
      */
     @RequestMapping(value = "upload")
     public ApiResult upload(HttpServletRequest request,@RequestParam("file") MultipartFile file) throws Exception{
-
-        ApiResult result = mediaEngine.upload(file);
-        return result;
+        ApiResult apiResult = new ApiResult();
+        MediaContext mediaContext = mediaEngine.upload(file);
+        if(mediaContext.isSuccess()){
+            mediaService.insert(mediaContext);
+            apiResult.setSuccess(true);
+            apiResult.setMsg("upload success.");
+        }else{
+            apiResult.setSuccess(false);
+            apiResult.setMsg("upload failed.");
+        }
+        return apiResult;
     }
-
 }

@@ -1,7 +1,7 @@
 package com.yile.church.common.provider;
 
 import com.yile.church.common.model.ApiResult;
-import com.yile.church.common.model.MediaUploaderParam;
+import com.yile.church.common.model.MediaContext;
 import com.yile.church.model.MediaModel;
 
 /**
@@ -14,11 +14,11 @@ public interface MediaChannelProvider {
      * 文件写入
      * @param param
      */
-    public ApiResult write(MediaUploaderParam param);
+    public void write(MediaContext param);
 
     /**
      * 文件读取
      * @param param
      */
-    public MediaModel read(MediaUploaderParam param);
+    public MediaModel read(MediaContext param);
 }

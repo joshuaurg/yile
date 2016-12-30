@@ -6,11 +6,11 @@ public class MediaModel extends BaseModel implements Serializable{
 
     private String name;
 
-    private Byte type;
+    private String type;
 
     private String url;
 
-    private Integer size;
+    private Long size;
 
     private Long playTime;
 
@@ -24,11 +24,11 @@ public class MediaModel extends BaseModel implements Serializable{
         this.name = name == null ? null : name.trim();
     }
 
-    public Byte getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Byte type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -40,11 +40,11 @@ public class MediaModel extends BaseModel implements Serializable{
         this.url = url == null ? null : url.trim();
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 

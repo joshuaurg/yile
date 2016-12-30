@@ -1,5 +1,6 @@
 package com.yile.church.service;
 
+import com.yile.church.common.model.MediaContext;
 import com.yile.church.model.MediaModel;
 
 /**
@@ -7,5 +8,5 @@ import com.yile.church.model.MediaModel;
  */
 public interface MediaService {
 
-    public void insert(MediaModel media);
+    public void insert(MediaContext mediaContext);
 }

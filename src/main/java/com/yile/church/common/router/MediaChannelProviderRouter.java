@@ -1,6 +1,6 @@
 package com.yile.church.common.router;
 
-import com.yile.church.common.model.MediaUploaderParam;
+import com.yile.church.common.model.MediaContext;
 import com.yile.church.common.provider.MediaChannelProvider;
 
 /**
@@ -9,6 +9,6 @@ import com.yile.church.common.provider.MediaChannelProvider;
  */
 public interface MediaChannelProviderRouter {
 
-    MediaChannelProvider route(MediaUploaderParam param);
+    MediaChannelProvider route(MediaContext param);
 
 }
