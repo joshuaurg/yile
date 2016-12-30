@@ -1,7 +1,6 @@
 package com.yile.church.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class AlbumModel extends BaseModel implements Serializable{
     private String name;
@@ -9,7 +8,6 @@ public class AlbumModel extends BaseModel implements Serializable{
     private Integer size;
 
     private String cover;
-
 
     public String getName() {
         return name;
