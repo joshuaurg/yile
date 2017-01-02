@@ -149,4 +149,24 @@
       delFlag = #{delFlag,jdbcType=TINYINT}
     where id = #{id}
   </update>
+
+  <select id="countMedia" resultType="int">
+    select count(*) from media
+    <where>
+      <if test="type != null">
+        type = #{type}
+      </if>
+    </where>
+  </select>
+
+  <select id="queryMedias" resultMap="BaseResultMap">
+    select * from media
+    <where>
+      <if test="type != null">
+        type = #{type}
+      </if>
+    </where>
+    order by updateTime desc
+    limit #{offset},#{itemsPerPage}
+  </select>
 </mapper>

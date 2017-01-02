@@ -20,6 +20,7 @@ public class MediaEngine {
         MediaContext mediaContext = new MediaContext();
         String contentType = file.getContentType();
         mediaContext.setChannel(MediaContext.UPLOAD_CHANNEL_QINIU);
+
         mediaContext.setType(contentType);
         mediaContext.setData(file.getBytes());
         MediaChannelProvider mediaChannelProvider = mediaChannelProviderRouter.route(mediaContext);

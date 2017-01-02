@@ -1,6 +1,5 @@
 package com.yile.church.common.provider;
 
-import com.alibaba.fastjson.JSONObject;
 import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
@@ -31,6 +30,10 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
     private String videoBucketName;
     private String audioBucketName;
     private String photoBucketName;
+
+    public static final String qiniuUrlVideo = "http://o82kaupli.bkt.clouddn.com/";
+    public static final String qiniuUrlAudio = "http://o82k6u3pp.bkt.clouddn.com/";
+    public static final String qiniuUrlPhoto = "http://o8ao1ngw0.bkt.clouddn.com/";
 
     private static  Map<String,String> bucketMap = new HashMap<String,String>();
 
@@ -72,7 +75,7 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
             Response res = uploadManager.put(mediaContext.getData(), fileName, getUpToken(bucketName(mediaContext.getType()),fileName));
             if(res.statusCode == 200){
                 mediaContext.setSuccess(true);
-                mediaContext.setUrl(fileName);
+                mediaContext.setUrl(getMediaPrefixUrl(mediaContext.getType())+fileName);
                 mediaContext.setSize(res.body().length);
                 mediaContext.setFileName(fileName);
             }else{
@@ -90,7 +93,7 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
         return null;
     }
 
-    private String bucketName(String contentType){
+    public String bucketName(String contentType){
         if(contentType.contains(MediaContext.CONTENT_TYPE_IMAGE)){
             return photoBucketName;
         }
@@ -99,6 +102,19 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
         }
         if(contentType.contains(MediaContext.CONTENT_TYPE_VIDEO)){
             return videoBucketName;
+        }
+        return null;
+    }
+
+    public static String getMediaPrefixUrl(String contentType){
+        if(contentType.contains(MediaContext.CONTENT_TYPE_IMAGE)){
+            return qiniuUrlPhoto;
+        }
+        if(contentType.contains(MediaContext.CONTENT_TYPE_AUDIO)){
+            return qiniuUrlAudio;
+        }
+        if(contentType.contains(MediaContext.CONTENT_TYPE_VIDEO)){
+            return qiniuUrlVideo;
         }
         return null;
     }
@@ -150,4 +166,5 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
     public static void setBucketMap(Map<String, String> bucketMap) {
         QiniuChannelProvider.bucketMap = bucketMap;
     }
+
 }

@@ -1,14 +1,17 @@
 package com.yile.church.common.model;
 
+import java.util.Map;
+
 /**
  * @author : hema
  * @date : 2016年12月29日 下午5:07
  */
-public class ApiResult {
+public class ApiResult<T> {
 
     private String code;
     private boolean success;
     private String msg;
+    private T data;
 
     public String getCode() {
         return code;
@@ -32,5 +35,13 @@ public class ApiResult {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }
