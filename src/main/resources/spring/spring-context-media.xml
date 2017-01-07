@@ -12,6 +12,7 @@
     <bean id="qiniuChannelProvider" class="com.yile.church.common.provider.QiniuChannelProvider">
         <property name="ak" value="${qiniu.security.ak}" />
         <property name="sk" value="${qiniu.security.sk}" />
+        <property name="channel" value="1" />
         <property name="videoBucketName" value="${qiniu.bucket.video}" />
         <property name="audioBucketName" value="${qiniu.bucket.audio}" />
         <property name="photoBucketName" value="${qiniu.bucket.photo}" />

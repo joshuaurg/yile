@@ -28,11 +28,11 @@
   </delete>
   <insert id="insert" parameterType="com.yile.church.model.MediaModel" >
     insert into media (id, name, type, 
-      url, size, playTime, 
+      url, size, playTime, channel,
       cover, createTime, updateTime, 
       delFlag)
     values (#{id}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
-      #{url,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{playTime,jdbcType=BIGINT}, 
+      #{url,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, #{playTime,jdbcType=BIGINT},#{channel},
       #{cover,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{delFlag,jdbcType=TINYINT})
   </insert>

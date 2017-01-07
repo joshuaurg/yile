@@ -6,6 +6,8 @@ public class MediaQuery extends PagedQuery<MediaQuery>{
 
     private String type;
 
+    private String channel;
+
     public String getName() {
         return name;
     }
@@ -20,5 +22,13 @@ public class MediaQuery extends PagedQuery<MediaQuery>{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 }

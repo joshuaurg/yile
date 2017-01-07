@@ -16,6 +16,8 @@ public class MediaModel extends BaseModel implements Serializable{
 
     private String cover;
 
+    private String channel;
+
     public String getName() {
         return name;
     }
@@ -62,5 +64,13 @@ public class MediaModel extends BaseModel implements Serializable{
 
     public void setCover(String cover) {
         this.cover = cover == null ? null : cover.trim();
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 }

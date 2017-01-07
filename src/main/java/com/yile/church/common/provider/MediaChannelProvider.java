@@ -21,4 +21,10 @@ public interface MediaChannelProvider {
      * @param param
      */
     public MediaModel read(MediaContext param);
+
+    /**
+     * 文件读取
+     * @param param
+     */
+    public String urlPrefix(MediaContext param);
 }

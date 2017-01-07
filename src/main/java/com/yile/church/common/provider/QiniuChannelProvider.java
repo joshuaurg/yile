@@ -27,6 +27,7 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
 
     private String ak;
     private String sk;
+    private String channel;
     private String videoBucketName;
     private String audioBucketName;
     private String photoBucketName;
@@ -75,7 +76,8 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
             Response res = uploadManager.put(mediaContext.getData(), fileName, getUpToken(bucketName(mediaContext.getType()),fileName));
             if(res.statusCode == 200){
                 mediaContext.setSuccess(true);
-                mediaContext.setUrl(getMediaPrefixUrl(mediaContext.getType())+fileName);
+                mediaContext.setUrl(fileName);
+                mediaContext.setChannel(channel);
                 mediaContext.setSize(res.body().length);
                 mediaContext.setFileName(fileName);
             }else{
@@ -93,6 +95,20 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
         return null;
     }
 
+    @Override
+    public String urlPrefix(MediaContext param){
+        if(param.getType().equals(MediaContext.CONTENT_TYPE_IMAGE)){
+            return qiniuUrlPhoto + param.getFileName();
+        }
+        if(param.getType().equals(MediaContext.CONTENT_TYPE_AUDIO)){
+            return qiniuUrlAudio + param.getFileName();
+        }
+        if(param.getType().equals(MediaContext.CONTENT_TYPE_VIDEO)){
+            return qiniuUrlVideo + param.getFileName();
+        }
+        return null;
+    }
+
     public String bucketName(String contentType){
         if(contentType.contains(MediaContext.CONTENT_TYPE_IMAGE)){
             return photoBucketName;
@@ -102,19 +118,6 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
         }
         if(contentType.contains(MediaContext.CONTENT_TYPE_VIDEO)){
             return videoBucketName;
-        }
-        return null;
-    }
-
-    public static String getMediaPrefixUrl(String contentType){
-        if(contentType.contains(MediaContext.CONTENT_TYPE_IMAGE)){
-            return qiniuUrlPhoto;
-        }
-        if(contentType.contains(MediaContext.CONTENT_TYPE_AUDIO)){
-            return qiniuUrlAudio;
-        }
-        if(contentType.contains(MediaContext.CONTENT_TYPE_VIDEO)){
-            return qiniuUrlVideo;
         }
         return null;
     }
@@ -167,4 +170,7 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
         QiniuChannelProvider.bucketMap = bucketMap;
     }
 
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 }
