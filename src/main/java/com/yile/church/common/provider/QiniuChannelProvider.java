@@ -53,7 +53,7 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
         }
         String fops = null;
         if(bucketName.equals(videoBucketName)){
-            fops = "avthumb/mp4/vb/1.25m";
+            fops = "avthumb/mp4/vb/1.25m;vframe/jpg/offset/1/w/480/h/360";
         }
         if(bucketName.equals(audioBucketName)){
             fops = "avthumb/mp3/ab/192k";
@@ -72,8 +72,9 @@ public class QiniuChannelProvider implements MediaChannelProvider ,InitializingB
             Configuration c = new Configuration(z);
             UploadManager uploadManager = new UploadManager(c);
             //调用put方法上传，这里指定的key和上传策略中的key要一致
-            String fileName = System.currentTimeMillis()+"";
+            String fileName = System.currentTimeMillis() + "." + mediaContext.getMediaExtension(mediaContext.getType());
             Response res = uploadManager.put(mediaContext.getData(), fileName, getUpToken(bucketName(mediaContext.getType()),fileName));
+            String bodyStrig = res.bodyString();
             if(res.statusCode == 200){
                 mediaContext.setSuccess(true);
                 mediaContext.setUrl(fileName);

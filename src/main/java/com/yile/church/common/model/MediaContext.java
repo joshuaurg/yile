@@ -12,6 +12,11 @@ public class MediaContext {
     public static final String CONTENT_TYPE_VIDEO = "video";
     public static final String CONTENT_TYPE_AUDIO = "audio";
 
+    public static final String EXTENSION_IMAGE = "jpg";
+    public static final String EXTENSION_VIDEO = "mp4";
+    public static final String EXTENSION_AUDIO = "mp3";
+
+
     // 媒体字节数组
     private byte[] data;
 
@@ -38,6 +43,19 @@ public class MediaContext {
 
     // 上传是否成功
     private boolean success;
+
+    public static String getMediaExtension(String type) {
+        if(type.contains(MediaContext.CONTENT_TYPE_IMAGE)){
+            return EXTENSION_IMAGE;
+        }
+        if(type.contains(MediaContext.CONTENT_TYPE_AUDIO)){
+            return EXTENSION_AUDIO;
+        }
+        if(type.contains(MediaContext.CONTENT_TYPE_VIDEO)){
+            return EXTENSION_VIDEO;
+        }
+        return null;
+    }
 
     public String getFileName() {
         return fileName;
